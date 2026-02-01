@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/foundation.dart';
 
 class AudioManager {
   //nhạc nền
@@ -15,7 +16,7 @@ class AudioManager {
       await _bgPlayer.play(AssetSource('audios/trinh.m4a'));
       await _bgPlayer.setVolume(0.5);
     } catch (e) {
-      print("Chưa có file nhạc nền: $e");
+      debugPrint("Chưa có file nhạc nền: $e");
     }
   }
 
@@ -23,7 +24,7 @@ class AudioManager {
     try {
       await _bgPlayer.stop();
     } catch (e) {
-      print("Lỗi dừng nhạc: $e");
+      debugPrint("Lỗi dừng nhạc: $e");
     }
   }
 
@@ -36,7 +37,8 @@ class AudioManager {
       await _sfxPlayer.play(AssetSource('audios/$fileName'));
       await _sfxPlayer.setVolume(1.0);
     } catch (e) {
-      print("Thiếu file SFX ($fileName): $e");
+      debugPrint("Thiếu file SFX ($fileName): $e");
     }
   }
 }
+

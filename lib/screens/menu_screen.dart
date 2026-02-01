@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../core/audio_manager.dart';
 import '../core/constants.dart';
+import '../models/bet_info.dart';
 import '../widgets/custom_button.dart';
 
 class MenuScreen extends StatefulWidget {
@@ -61,7 +62,14 @@ class _MenuScreenState extends State<MenuScreen> {
                     text: "VÀO ĐUA NGAY",
                     onPressed: () {
                       AudioManager.stopBackground();
-                      Navigator.pushNamed(context, '/lobby').then((_) {
+                      Navigator.pushNamed(
+                        context,
+                        '/result',
+                        arguments: {
+                          'betInfo': BetInfo.dummyBet,
+                          'winnerId': '1',
+                        },
+                      ).then((_) {
                         AudioManager.playBackground();
                       });
                     },
@@ -92,3 +100,4 @@ class _MenuScreenState extends State<MenuScreen> {
     );
   }
 }
+
