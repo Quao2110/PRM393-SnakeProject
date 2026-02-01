@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'models/bet_info.dart';
 import 'screens/menu_screen.dart';
 import 'screens/result_screen.dart';
+import 'screens/lobby_screen.dart';
 // import 'screens/intro_screen.dart';
-// import 'screens/lobby_screen.dart';
 // import 'screens/betting_screen.dart';
-// import 'screens/race_screen.dart';
+import 'screens/race_screen.dart';
 // import 'screens/result_screen.dart';
 
 void main() {
@@ -20,26 +20,23 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Racing Game',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-        fontFamily: 'Roboto',
-      ),
+      theme: ThemeData(primarySwatch: Colors.orange, fontFamily: 'Roboto'),
       initialRoute: '/',
       routes: {
         '/': (context) => const MenuScreen(),
+        '/lobby': (context) => const LobbyScreen(),
         // '/intro': (context) => const IntroScreen(),
-        // '/lobby': (context) => const LobbyScreen(),
         // '/betting': (context) => const BettingScreen(),
         // '/race': (context) => const RaceScreen(),
         '/result': (context) {
-          final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+          final args =
+              ModalRoute.of(context)!.settings.arguments
+                  as Map<String, dynamic>;
           final betInfo = args['betInfo'] as BetInfo;
           final winnerId = args['winnerId'] as String;
           return ResultScreen(betInfo: betInfo, winnerId: winnerId);
         },
 
-        // để tạm
-        '/lobby': (context) => Scaffold(appBar: AppBar(title: Text("Lobby"))),
         '/intro': (context) => Scaffold(appBar: AppBar(title: Text("Intro"))),
       },
     );

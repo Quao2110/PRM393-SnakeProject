@@ -3,6 +3,7 @@ import '../core/audio_manager.dart';
 import '../core/constants.dart';
 import '../models/bet_info.dart';
 import '../widgets/custom_button.dart';
+import '../models/bet_info.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
@@ -23,7 +24,6 @@ class _MenuScreenState extends State<MenuScreen> {
     return Scaffold(
       body: Stack(
         children: [
-
           Container(
             decoration: const BoxDecoration(
               color: AppConstants.backgroundGame,
@@ -49,7 +49,11 @@ class _MenuScreenState extends State<MenuScreen> {
                     color: Colors.white,
                     letterSpacing: 2,
                     shadows: [
-                      Shadow(blurRadius: 10, color: Colors.orange, offset: Offset(2, 2))
+                      Shadow(
+                        blurRadius: 10,
+                        color: Colors.orange,
+                        offset: Offset(2, 2),
+                      ),
                     ],
                   ),
                 ),
@@ -92,6 +96,25 @@ class _MenuScreenState extends State<MenuScreen> {
                     },
                   ),
                 ),
+
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: GameButton(
+                    text: "🏎️ TEST RACE",
+                    color: Colors.purple,
+                    onPressed: () {
+                      AudioManager.stopBackground();
+                      Navigator.pushNamed(
+                        context,
+                        '/race',
+                        arguments: BetInfo.dummyBet,
+                      ).then((_) {
+                        AudioManager.playBackground();
+                      });
+                    },
+                  ),
+                ),
               ],
             ),
           ),
@@ -100,4 +123,3 @@ class _MenuScreenState extends State<MenuScreen> {
     );
   }
 }
-
