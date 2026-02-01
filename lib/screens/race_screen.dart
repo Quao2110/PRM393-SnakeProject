@@ -122,6 +122,11 @@ class _RaceScreenState extends State<RaceScreen> with TickerProviderStateMixin {
       isRacing = false;
       raceFinished = true;
     });
+    Future.delayed(const Duration(milliseconds: 600), () {
+      if (mounted) {
+        _navigateToResult();
+      }
+    });
   }
 
   void _navigateToResult() {
@@ -196,7 +201,6 @@ class _RaceScreenState extends State<RaceScreen> with TickerProviderStateMixin {
                 ],
               ),
               if (showCountdown) _buildCountdownOverlay(),
-              if (raceFinished) _buildResultOverlay(),
             ],
           ),
         ),

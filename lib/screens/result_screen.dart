@@ -82,11 +82,15 @@ class _RibbonBanner extends StatelessWidget {
 class ResultScreen extends StatefulWidget {
   final BetInfo betInfo;
   final String winnerId;
+  final bool isWin;
+  final int winAmount;
 
   const ResultScreen({
     super.key,
     required this.betInfo,
     required this.winnerId,
+    required this.isWin,
+    required this.winAmount,
   });
 
   @override
@@ -96,8 +100,6 @@ class ResultScreen extends StatefulWidget {
 class _ResultScreenState extends State<ResultScreen>
     with SingleTickerProviderStateMixin {
   late final ConfettiController _confettiController;
-  late final bool _isWin;
-  bool _didApplyResult = false;
 
   @override
   void initState() {
@@ -106,23 +108,11 @@ class _ResultScreenState extends State<ResultScreen>
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
-    _isWin = widget.betInfo.racer.id == widget.winnerId;
     _confettiController = ConfettiController(
       duration: const Duration(seconds: 2),
     );
-    _applyResultOnce();
-    if (_isWin) {
+    if (widget.isWin) {
       _confettiController.play();
-    }
-  }
-
-  void _applyResultOnce() {
-    if (_didApplyResult) return;
-    _didApplyResult = true;
-    if (_isWin) {
-      PlayerData.addMoney(widget.betInfo.betAmount);
-    } else {
-      PlayerData.subtractMoney(widget.betInfo.betAmount);
     }
   }
 
@@ -164,8 +154,10 @@ class _ResultScreenState extends State<ResultScreen>
                 final maxCardWidth = constraints.maxWidth < 520
                     ? constraints.maxWidth
                     : 520.0;
-                final accent = _isWin ? Colors.amber : Colors.blueGrey.shade800;
-                final bannerGradient = _isWin
+                final accent = widget.isWin
+                    ? Colors.amber
+                    : Colors.blueGrey.shade800;
+                final bannerGradient = widget.isWin
                     ? [Colors.orange.shade600, Colors.amber.shade400]
                     : [Colors.blueGrey, Colors.grey];
                 return Center(
@@ -242,7 +234,7 @@ class _ResultScreenState extends State<ResultScreen>
                           Positioned(
                             top: 6,
                             child: Icon(
-                              _isWin
+                              widget.isWin
                                   ? Icons.emoji_events
                                   : Icons.sentiment_very_dissatisfied,
                               size: 110,
@@ -252,9 +244,9 @@ class _ResultScreenState extends State<ResultScreen>
                           Positioned(
                             top: 95,
                             child: _RibbonBanner(
-                              text: _isWin ? 'YOU WIN!' : 'YOU LOSE!',
+                              text: widget.isWin ? 'YOU WIN!' : 'YOU LOSE!',
                               colors: bannerGradient,
-                              fontSize: _isWin ? 22 : 20,
+                              fontSize: widget.isWin ? 22 : 20,
                             ),
                           ),
                         ],
@@ -265,7 +257,7 @@ class _ResultScreenState extends State<ResultScreen>
               },
             ),
           ),
-          if (_isWin)
+          if (widget.isWin)
             ConfettiWidget(
               confettiController: _confettiController,
               blastDirectionality: BlastDirectionality.explosive,
