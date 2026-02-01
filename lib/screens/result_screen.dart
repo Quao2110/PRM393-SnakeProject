@@ -219,7 +219,7 @@ class _ResultScreenState extends State<ResultScreen>
                                   width: 210,
                                   child: GameButton(
                                     text:
-                                        isBankrupt ? 'RESET GAME' : 'PLAY AGAIN',
+                                    isBankrupt ? 'RESET GAME' : 'PLAY AGAIN',
                                     onPressed: () {
                                       if (isBankrupt) {
                                         PlayerData.resetData();
@@ -271,4 +271,3 @@ class _ResultScreenState extends State<ResultScreen>
     );
   }
 }
-
