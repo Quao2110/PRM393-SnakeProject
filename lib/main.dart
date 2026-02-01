@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screens/menu_screen.dart';
+import 'screens/lobby_screen.dart';
 // import 'screens/intro_screen.dart';
-// import 'screens/lobby_screen.dart';
 // import 'screens/betting_screen.dart';
 import 'screens/race_screen.dart';
 // import 'screens/result_screen.dart';
@@ -22,14 +22,13 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const MenuScreen(),
+        '/lobby': (context) => const LobbyScreen(),
         // '/intro': (context) => const IntroScreen(),
-        // '/lobby': (context) => const LobbyScreen(),
         // '/betting': (context) => const BettingScreen(),
         '/race': (context) => const RaceScreen(),
         // '/result': (context) => const ResultScreen(),
 
         // để tạm
-        '/lobby': (context) => Scaffold(appBar: AppBar(title: Text("Lobby"))),
         '/intro': (context) => Scaffold(appBar: AppBar(title: Text("Intro"))),
       },
     );
