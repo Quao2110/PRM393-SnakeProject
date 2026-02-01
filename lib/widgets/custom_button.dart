@@ -30,7 +30,7 @@ class GameButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(25),
           ),
           elevation: 5,
-          shadowColor: color.withOpacity(0.5),
+          shadowColor: color.withValues(alpha: 0.5),
         ),
         child: Text(
           text.toUpperCase(),

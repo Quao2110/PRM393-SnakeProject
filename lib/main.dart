@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'models/bet_info.dart';
 import 'screens/menu_screen.dart';
+import 'screens/result_screen.dart';
 import 'screens/lobby_screen.dart';
 // import 'screens/intro_screen.dart';
 // import 'screens/betting_screen.dart';
@@ -26,11 +28,25 @@ class MyApp extends StatelessWidget {
         // '/intro': (context) => const IntroScreen(),
         // '/betting': (context) => const BettingScreen(),
         '/race': (context) => const RaceScreen(),
-        // '/result': (context) => const ResultScreen(),
+        '/result': (context) {
+          final args =
+              ModalRoute.of(context)!.settings.arguments
+                  as Map<String, dynamic>;
+          final betInfo = args['betInfo'] as BetInfo;
+          final winnerId = args['winnerId'] as String;
+          final isWin = args['isWin'] as bool;
+          final winAmount = args['winAmount'] as int;
+          return ResultScreen(
+            betInfo: betInfo,
+            winnerId: winnerId,
+            isWin: isWin,
+            winAmount: winAmount,
+          );
+        },
 
-        // để tạm
         '/intro': (context) => Scaffold(appBar: AppBar(title: Text("Intro"))),
       },
     );
   }
 }
+
