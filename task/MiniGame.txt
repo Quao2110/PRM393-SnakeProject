@@ -1,0 +1,54 @@
+Task 1: (Menu & Audio Core)
+File: main.dart, screens/menu_screen.dart, core/audio_manager.dart
+Nhiệm vụ:
+Main & Routes: Cấu hình đường dẫn (giữ nguyên).
+Audio System 
+Cài package audioplayers.
+Viết class AudioManager: Hàm playMusic() (nhạc nền) và playSound() (tiếng click/thắng/thua).
+Menu UI: Giao diện đẹp, bấm nút Start thì có tiếng "Tách".
+
+Task 2: Intro & Settings (Cài đặt)
+File: screens/intro_screen.dart, screens/settings_dialog.dart (Mới)
+Nhiệm vụ:
+Intro: Slide giới thiệu luật chơi (giữ nguyên).
+Settings (Logic):
+Làm 1 cái nút hình bánh răng cưa ở góc màn hình.
+Bấm vào hiện Popup: Bật/Tắt Nhạc nền.
+Lưu trạng thái này (Ví dụ: tắt rồi thì chuyển màn hình không được tự bật lại).
+
+Task 3: Lobby & Avatar (Nhân vật)
+File: screens/lobby_screen.dart
+Nhiệm vụ:
+Form: Nhập tên (Validate không được để trống).
+Khuyến khích tại thấy ít quá 
+(Chọn Avatar (Logic):
+Hiển thị 3-4 hình đại diện (Người/Thú).)
+Click vào hình nào -> Lưu hình đó vào PlayerData.userAvatar.
+(Để sang màn hình Đua và Kết quả hiển thị đúng mặt người chơi).
+
+Task 4: Betting (Logic Cược)
+File: screens/betting_screen.dart
+Nhiệm vụ:
+List Xe: Hiển thị 3 xe từ Model.
+Validate Tiền (Quan trọng):
+Không nhập chữ, không nhập số âm.
+Không nhập quá số tiền hiện có (balance).
+Gửi dữ liệu: Đóng gói BetInfo (Xe chọn + Tiền) gửi sang màn Race.
+
+Task 5: Race (Logic Game)
+File: screens/race_screen.dart
+Nhiệm vụ:
+UI: Vẽ đường đua, hiển thị Avatar người chơi (lấy từ Task 3) bên cạnh xe đã cược.
+Engine:
+Dùng Timer + Random để xe chạy.
+Xử lý xe về đích -> Gửi ID xe thắng sang màn Result.
+
+Task 6: Result & Effects (Hiệu ứng)
+File: screens/result_screen.dart
+Nhiệm vụ:
+Tính toán: Cộng/Trừ tiền vào PlayerData (Cơ bản).
+Hiệu ứng 
+Nếu Thắng: Hiện hiệu ứng Pháo giấy (Confetti) hoặc icon cúp vàng to đùng nhấp nháy.
+Nếu Thua: Hiện mặt khóc.
+Xử lý Phá sản (Game Over):
+Kiểm tra nếu money <= 0: Không hiện nút "Chơi lại" mà hiện nút "Reset Game" (Hồi máu về 100$).

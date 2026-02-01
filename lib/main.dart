@@ -3,7 +3,7 @@ import 'screens/menu_screen.dart';
 // import 'screens/intro_screen.dart';
 // import 'screens/lobby_screen.dart';
 // import 'screens/betting_screen.dart';
-// import 'screens/race_screen.dart';
+import 'screens/race_screen.dart';
 // import 'screens/result_screen.dart';
 
 void main() {
@@ -18,17 +18,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Racing Game',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-        fontFamily: 'Roboto',
-      ),
+      theme: ThemeData(primarySwatch: Colors.orange, fontFamily: 'Roboto'),
       initialRoute: '/',
       routes: {
         '/': (context) => const MenuScreen(),
         // '/intro': (context) => const IntroScreen(),
         // '/lobby': (context) => const LobbyScreen(),
         // '/betting': (context) => const BettingScreen(),
-        // '/race': (context) => const RaceScreen(),
+        '/race': (context) => const RaceScreen(),
         // '/result': (context) => const ResultScreen(),
 
         // để tạm
