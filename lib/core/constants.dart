@@ -23,4 +23,12 @@ class AppConstants {
     fontSize: 16,
     color: Colors.white70,
   );
+
+  // 4. AVATAR PATHS (Danh sách avatar để chọn)
+  static const List<String> avatarPaths = [
+    'assets/images/avatar_animal_1.png',
+    'assets/images/avatar_animal_2.png',
+    'assets/images/avatar_animal_3.png',
+    'assets/images/avatar_animal_4.png',
+  ];
 }
