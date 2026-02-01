@@ -10,8 +10,13 @@ import '../widgets/custom_button.dart';
 class _RibbonBanner extends StatelessWidget {
   final String text;
   final List<Color> colors;
+  final double fontSize;
 
-  const _RibbonBanner({required this.text, required this.colors});
+  const _RibbonBanner({
+    required this.text,
+    required this.colors,
+    required this.fontSize,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +66,9 @@ class _RibbonBanner extends StatelessWidget {
           ),
           child: Text(
             text,
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.white,
-              fontSize: 20,
+              fontSize: fontSize,
               fontWeight: FontWeight.bold,
               letterSpacing: 1.2,
             ),
@@ -159,7 +164,7 @@ class _ResultScreenState extends State<ResultScreen>
                 final maxCardWidth = constraints.maxWidth < 520
                     ? constraints.maxWidth
                     : 520.0;
-                final accent = _isWin ? Colors.amber : Colors.blueGrey;
+                final accent = _isWin ? Colors.amber : Colors.blueGrey.shade800;
                 final bannerGradient = _isWin
                     ? [Colors.orange.shade600, Colors.amber.shade400]
                     : [Colors.blueGrey, Colors.grey];
@@ -249,6 +254,7 @@ class _ResultScreenState extends State<ResultScreen>
                             child: _RibbonBanner(
                               text: _isWin ? 'YOU WIN!' : 'YOU LOSE!',
                               colors: bannerGradient,
+                              fontSize: _isWin ? 22 : 20,
                             ),
                           ),
                         ],
@@ -273,3 +279,4 @@ class _ResultScreenState extends State<ResultScreen>
     );
   }
 }
+
