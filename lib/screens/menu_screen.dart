@@ -99,24 +99,24 @@ class _MenuScreenState extends State<MenuScreen> {
                 ),
 
 
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: GameButton(
-                    text: "🏎️ TEST RACE",
-                    color: Colors.purple,
-                    onPressed: () {
-                      AudioManager.stopBackground();
-                      Navigator.pushNamed(
-                        context,
-                        '/race',
-                        arguments: BetInfo.dummyBet,
-                      ).then((_) {
-                        AudioManager.playBackground();
-                      });
-                    },
-                  ),
-                ),
+                // const SizedBox(height: 20),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 40),
+                //   child: GameButton(
+                //     text: "🏎️ TEST RACE",
+                //     color: Colors.purple,
+                //     onPressed: () {
+                //       AudioManager.stopBackground();
+                //       Navigator.pushNamed(
+                //         context,
+                //         '/race',
+                //         arguments: BetInfo.dummyBet,
+                //       ).then((_) {
+                //         AudioManager.playBackground();
+                //       });
+                //     },
+                //   ),
+                // ),
                 //
 
                 // //INTRO
