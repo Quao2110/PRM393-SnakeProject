@@ -17,7 +17,7 @@ class Racer {
   static List<Racer> get dummyRacers => [
     Racer(
       id: '1',
-      name: 'RẮN ĐỎ YÊU NHỎ ĐÓ',
+      name: 'RẮN ĐỎ LÒM',
       color: Colors.redAccent,
      // imagePath:
        //   'assets/images/car_red.png', // Nhớ kiếm ảnh đặt tên đúng như này
