@@ -189,33 +189,31 @@ class _BettingScreenState extends State<BettingScreen> {
 
   Widget _buildHeader() {
     return Container(
-      padding: EdgeInsets.all(16),
-      color: Color(0xFF2C3E50),
+      padding: const EdgeInsets.all(16),
+      color: const Color(0xFF2C3E50),
       child: Row(
         children: [
+          // 1. Hiển thị Avatar đã chọn
           CircleAvatar(
             radius: 28,
             backgroundColor: Colors.amber,
-            // TODO: Uncomment khi đã có Lobby Screen
-            // backgroundImage: PlayerData.userAvatar.isNotEmpty
-            //     ? AssetImage(PlayerData.userAvatar)
-            //     : null,
-            // child: PlayerData.userAvatar.isEmpty
-            //     ? Text('😊', style: TextStyle(fontSize: 28))
-            //     : null,
-            child: Text('😊', style: TextStyle(fontSize: 28)),
+            backgroundImage: PlayerData.userAvatar.isNotEmpty
+                ? AssetImage(PlayerData.userAvatar)
+                : null,
+            child: PlayerData.userAvatar.isEmpty
+                ? const Text('😊', style: TextStyle(fontSize: 28))
+                : null,
           ),
-          SizedBox(width: 12),
+          const SizedBox(width: 12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // 2. Hiển thị Tên người chơi đã nhập
               Text(
-                // TODO: Uncomment khi đã có Lobby Screen
-                // PlayerData.userName.isNotEmpty
-                //     ? PlayerData.userName
-                //     : 'Người chơi',
-                'Người chơi',
-                style: TextStyle(
+                PlayerData.userName.isNotEmpty
+                    ? PlayerData.userName
+                    : 'Người chơi',
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -224,20 +222,20 @@ class _BettingScreenState extends State<BettingScreen> {
               Row(
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     decoration: BoxDecoration(
                       color: Colors.green,
                       borderRadius: BorderRadius.circular(4),
                     ),
-                    child: Text(
+                    child: const Text(
                       '💵',
                       style: TextStyle(fontSize: 12),
                     ),
                   ),
-                  SizedBox(width: 6),
+                  const SizedBox(width: 6),
                   Text(
                     '\$${PlayerData.totalMoney}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.green,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
