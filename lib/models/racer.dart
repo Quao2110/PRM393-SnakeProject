@@ -17,20 +17,20 @@ class Racer {
   static List<Racer> get dummyRacers => [
     Racer(
       id: '1',
-      name: 'Red Fire',
+      name: 'RẮN ĐỎ LÒM',
       color: Colors.redAccent,
      // imagePath:
        //   'assets/images/car_red.png', // Nhớ kiếm ảnh đặt tên đúng như này
     ),
     Racer(
       id: '2',
-      name: 'Blue Lightning',
+      name: 'RẮN XANH THÍCH ANH',
       color: Colors.blueAccent,
      // imagePath: 'assets/images/car_blue.png',
     ),
     Racer(
       id: '3',
-      name: 'Green Tank',
+      name: 'RẮN XANH LÁ NÉ RA',
       color: Colors.greenAccent,
      // imagePath: 'assets/images/car_green.png',
     ),
