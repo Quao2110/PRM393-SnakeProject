@@ -41,10 +41,14 @@ class _LobbyScreenState extends State<LobbyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Lấy chiều rộng màn hình để tính toán kích thước item
+    final screenWidth = MediaQuery.of(context).size.width;
+    // Tính toán để hiển thị khoảng 2.5 items trên màn hình (để người dùng biết là có thể vuốt)
+    final itemWidth = (screenWidth - 48 - 32) / 2.5;
+
     return Scaffold(
       body: Stack(
         children: [
-          // Background
           Container(
             decoration: const BoxDecoration(
               color: AppConstants.backgroundGame,
@@ -55,8 +59,6 @@ class _LobbyScreenState extends State<LobbyScreen> {
               ),
             ),
           ),
-
-          // Content
           SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24),
@@ -65,7 +67,6 @@ class _LobbyScreenState extends State<LobbyScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Back button
                     Align(
                       alignment: Alignment.topLeft,
                       child: IconButton(
@@ -73,26 +74,16 @@ class _LobbyScreenState extends State<LobbyScreen> {
                         onPressed: () => Navigator.pop(context),
                       ),
                     ),
-
-                    const SizedBox(height: 20),
-
-                    // Title
+                    const SizedBox(height: 10),
                     const Text(
                       'CHỌN NHÂN VẬT',
                       style: AppConstants.titleStyle,
                       textAlign: TextAlign.center,
                     ),
-
-                    const SizedBox(height: 40),
-
-                    // Name Input
+                    const SizedBox(height: 30),
                     const Text(
                       'Tên của bạn:',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
@@ -103,136 +94,72 @@ class _LobbyScreenState extends State<LobbyScreen> {
                         hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.1),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide.none,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                            color: AppConstants.primaryColor,
-                            width: 2,
-                          ),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                            color: Colors.redAccent,
-                            width: 2,
-                          ),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                            color: Colors.redAccent,
-                            width: 2,
-                          ),
-                        ),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
                         prefixIcon: const Icon(Icons.person, color: Colors.white70),
                       ),
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return 'Vui lòng nhập tên của bạn!';
-                        }
-                        return null;
-                      },
+                      validator: (value) => (value == null || value.trim().isEmpty) ? 'Vui lòng nhập tên!' : null,
                       onChanged: (_) => setState(() {}),
                     ),
-
-                    const SizedBox(height: 40),
-
-                    // Avatar Selection Title
+                    const SizedBox(height: 30),
                     const Text(
-                      'Chọn Avatar:',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      'Chọn Avatar (Vuốt ngang):',
+                      style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(height: 16),
 
-                    // Avatar Grid
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 16,
-                        mainAxisSpacing: 16,
-                        childAspectRatio: 1,
-                      ),
-                      itemCount: AppConstants.avatarPaths.length,
-                      itemBuilder: (context, index) {
-                        final avatarPath = AppConstants.avatarPaths[index];
-                        final isSelected = _selectedAvatar == avatarPath;
+                    // KHUNG AVATAR ĐÃ ĐƯỢC FIT
+                    SizedBox(
+                      height: itemWidth, // Chiều cao bằng chiều rộng để tạo hình vuông
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: AppConstants.avatarPaths.length,
+                        itemBuilder: (context, index) {
+                          final avatarPath = AppConstants.avatarPaths[index];
+                          final isSelected = _selectedAvatar == avatarPath;
 
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _selectedAvatar = avatarPath;
-                            });
-                          },
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 200),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(
-                                color: isSelected
-                                    ? AppConstants.primaryColor
-                                    : Colors.white24,
-                                width: isSelected ? 4 : 2,
+                          return GestureDetector(
+                            onTap: () => setState(() => _selectedAvatar = avatarPath),
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              width: itemWidth,
+                              margin: const EdgeInsets.only(right: 16),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: isSelected ? AppConstants.primaryColor : Colors.white24,
+                                  width: isSelected ? 4 : 2,
+                                ),
+                                boxShadow: isSelected
+                                    ? [BoxShadow(color: AppConstants.primaryColor.withOpacity(0.4), blurRadius: 10, spreadRadius: 1)]
+                                    : null,
                               ),
-                              boxShadow: isSelected
-                                  ? [
-                                      BoxShadow(
-                                        color: AppConstants.primaryColor
-                                            .withOpacity(0.5),
-                                        blurRadius: 12,
-                                        spreadRadius: 2,
-                                      )
-                                    ]
-                                  : null,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Stack(
-                                fit: StackFit.expand,
-                                children: [
-                                  Image.asset(
-                                    avatarPath,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  if (isSelected)
-                                    Container(
-                                      color: AppConstants.primaryColor
-                                          .withOpacity(0.3),
-                                      child: const Center(
-                                        child: Icon(
-                                          Icons.check_circle,
-                                          color: Colors.white,
-                                          size: 48,
-                                        ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: Stack(
+                                  fit: StackFit.expand,
+                                  children: [
+                                    Image.asset(avatarPath, fit: BoxFit.cover),
+                                    if (isSelected)
+                                      Container(
+                                        color: Colors.black38,
+                                        child: const Icon(Icons.check_circle, color: Colors.white, size: 40),
                                       ),
-                                    ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
 
                     const SizedBox(height: 40),
-
-                    // Continue Button
                     GameButton(
                       text: 'TIẾP TỤC',
                       onPressed: _onContinue,
                       isEnabled: _isFormValid,
                     ),
-
-                    const SizedBox(height: 20),
                   ],
                 ),
               ),

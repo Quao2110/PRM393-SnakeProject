@@ -5,7 +5,7 @@ class AppConstants {
   static const int defaultBalance = 100; // Tiền mặc định ban đầu
   static const int minBet = 10; // Cược tối thiểu
   static const int maxBet = 1000; // Cược tối đa
-  static const int raceDuration = 5; // Thời gian đua trung bình (giây)
+  static const int raceDuration = 30; // Thời gian đua trung bình (giây)
 
   // 2. MÀU SẮC CHỦ ĐẠO (Theme)
   static const Color primaryColor = Color(0xFFE65100); // Cam đậm (Màu nút bấm)
