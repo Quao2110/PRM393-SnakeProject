@@ -129,6 +129,7 @@ class _ResultScreenState extends State<ResultScreen>
 
   @override
   Widget build(BuildContext context) {
+    // Kiểm tra người chơi có hết sạch tiền hay không
     final bool isBankrupt = PlayerData.totalMoney <= 0;
 
     return Scaffold(
@@ -191,24 +192,27 @@ class _ResultScreenState extends State<ResultScreen>
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 const SizedBox(height: 4),
+                                // Hiển thị mã số hoặc tên tay đua chiến thắng
                                 Text(
-                                  'Winner: ${widget.winnerId}',
+                                  'Người thắng cuộc: ${widget.winnerId}',
                                   textAlign: TextAlign.center,
                                   style: AppConstants.normalText.copyWith(
                                     color: Colors.black87,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
+                                // Hiển thị thông tin cược của người chơi
                                 Text(
-                                  'Your Bet: ${widget.betInfo.racer.name} - ${widget.betInfo.betAmount}\$',
+                                  'Lựa chọn: ${widget.betInfo.racer.name} - ${widget.betInfo.betAmount} xu',
                                   textAlign: TextAlign.center,
                                   style: AppConstants.normalText.copyWith(
                                     color: Colors.black87,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
+                                // Hiển thị số dư hiện tại sau ván đấu
                                 Text(
-                                  'Balance: ${PlayerData.totalMoney}\$',
+                                  'Số dư: ${PlayerData.totalMoney} xu',
                                   textAlign: TextAlign.center,
                                   style: AppConstants.titleStyle.copyWith(
                                     color: Colors.black87,
@@ -218,10 +222,12 @@ class _ResultScreenState extends State<ResultScreen>
                                 SizedBox(
                                   width: 210,
                                   child: GameButton(
+                                    // Thay đổi nội dung nút bấm dựa trên trạng thái túi tiền
                                     text:
-                                    isBankrupt ? 'RESET GAME' : 'PLAY AGAIN',
+                                    isBankrupt ? 'CHƠI LẠI TỪ ĐẦU' : 'TIẾP TỤC ĐUA',
                                     onPressed: () {
                                       if (isBankrupt) {
+                                        // Reset lời dữ liệu nếu hết tiền
                                         PlayerData.resetData();
                                       }
                                       _backToMenu();
@@ -244,7 +250,8 @@ class _ResultScreenState extends State<ResultScreen>
                           Positioned(
                             top: 95,
                             child: _RibbonBanner(
-                              text: widget.isWin ? 'YOU WIN!' : 'YOU LOSE!',
+                              // Chuyển biểu ngữ sang tiếng Việt
+                              text: widget.isWin ? 'THẮNG RỒI NHA!' : 'THUA THÔI MÌNH LÀM LẠI !',
                               colors: bannerGradient,
                               fontSize: widget.isWin ? 22 : 20,
                             ),
