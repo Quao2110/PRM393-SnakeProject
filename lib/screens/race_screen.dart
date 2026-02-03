@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import '../models/bet_info.dart';
 import '../models/racer.dart';
+import '../core/constants.dart';
 import '../core/audio_manager.dart';
 import '../core/player_data.dart';
 
@@ -70,17 +71,11 @@ class _RaceScreenState extends State<RaceScreen> with TickerProviderStateMixin {
   }
 
   void _startCountdown() async {
-    // Phát nhạc Start (sound start)
-    AudioManager.playSFX('start.mp3');
-
-    for (int i = 3; i > 0; i--) {
-      if (!mounted) return;
-      setState(() {
-        countdown = i;
-        showCountdown = true;
-      });
-      await Future.delayed(const Duration(seconds: 1));
-    }
+    setState(() {
+      showCountdown = true;
+      countdown = 3;
+    });
+    await AudioManager.playSFXAndWait('start.mp3');
     if (!mounted) return;
     setState(() => showCountdown = false);
     _startRace();
@@ -101,7 +96,7 @@ class _RaceScreenState extends State<RaceScreen> with TickerProviderStateMixin {
       setState(() {
         for (int i = 0; i < racers.length; i++) {
           if (racerPositions[i] < 1.0) {
-            double baseSpeed = 0.008;
+            double baseSpeed = 0.003;
             double randomFactor = _random.nextDouble() * 0.015;
             racerPositions[i] += baseSpeed + randomFactor;
 
@@ -217,7 +212,6 @@ class _RaceScreenState extends State<RaceScreen> with TickerProviderStateMixin {
     );
   }
 
-  // THU NHỎ KHUNG CHỮ CƯỢC
   Widget _buildBetInfo() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 2), // Giảm margin
@@ -359,7 +353,6 @@ class _RaceScreenState extends State<RaceScreen> with TickerProviderStateMixin {
   void _restartRace() {
     raceTimer?.cancel();
     AudioManager.stopBackground();
-
     setState(() {
       racerPositions = List.filled(racers.length, 0.0);
       isRacing = false;
