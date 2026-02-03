@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import '../models/racer.dart';
 import '../models/bet_info.dart';
 import '../core/player_data.dart';
+import '../core/audio_manager.dart';
 
 class BettingScreen extends StatefulWidget {
   const BettingScreen({super.key});
@@ -24,7 +25,6 @@ class _BettingScreenState extends State<BettingScreen> {
     super.dispose();
   }
 
-  // Validate số tiền cược
   String? _validateBetAmount(String value) {
     if (value.isEmpty) {
       return 'Vui lòng nhập số tiền cược';
@@ -75,9 +75,6 @@ class _BettingScreenState extends State<BettingScreen> {
       betAmount: betAmount,
     );
 
-    // Play sound effect
-    // AudioManager.playSound('click.mp3');
-
     Navigator.pushNamed(
       context,
       '/race',
@@ -93,7 +90,6 @@ class _BettingScreenState extends State<BettingScreen> {
         child: Column(
           children: [
             _buildHeader(),
-            
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.all(20),
@@ -162,6 +158,8 @@ class _BettingScreenState extends State<BettingScreen> {
         height: 42,
         child: OutlinedButton(
           onPressed: () {
+            // Play sound
+            AudioManager.playSFX('click.mp3');
             setState(() {
               _betController.text = amount.toString();
               _errorMessage = '';
@@ -193,7 +191,6 @@ class _BettingScreenState extends State<BettingScreen> {
       color: const Color(0xFF2C3E50),
       child: Row(
         children: [
-          // 1. Hiển thị Avatar đã chọn
           CircleAvatar(
             radius: 28,
             backgroundColor: Colors.amber,
@@ -208,7 +205,6 @@ class _BettingScreenState extends State<BettingScreen> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 2. Hiển thị Tên người chơi đã nhập
               Text(
                 PlayerData.userName.isNotEmpty
                     ? PlayerData.userName
@@ -336,7 +332,10 @@ class _BettingScreenState extends State<BettingScreen> {
       width: double.infinity,
       height: 56,
       child: ElevatedButton(
-        onPressed: _handlePlaceBet,
+        onPressed: () {
+          AudioManager.playSFX('click.mp3');
+          _handlePlaceBet();
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: Color(0xFFFF5722),
           shape: RoundedRectangleBorder(
@@ -376,8 +375,6 @@ class _BettingScreenState extends State<BettingScreen> {
     }
   }
 
-
-
   Widget _buildRacerCard(Racer racer) {
     final isSelected = _selectedRacer?.id == racer.id;
 
@@ -385,6 +382,8 @@ class _BettingScreenState extends State<BettingScreen> {
       margin: EdgeInsets.only(bottom: 10),
       child: InkWell(
         onTap: () {
+          // Play sound
+          AudioManager.playSFX('click.mp3');
           setState(() {
             _selectedRacer = racer;
             _errorMessage = '';

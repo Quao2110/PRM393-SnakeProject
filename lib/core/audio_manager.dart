@@ -1,25 +1,27 @@
 import 'package:audioplayers/audioplayers.dart';
 
 class AudioManager {
-  //nhạc nền
   static final AudioPlayer _bgPlayer = AudioPlayer();
-  //hiệu ứng
   static final AudioPlayer _sfxPlayer = AudioPlayer();
 
   // Trạng thái nhạc
   static bool isMusicOn = true;
   static double musicVolume = 0.5;
 
-  //NHẠC NỀN
-  static Future<void> playBackground() async {
-    if (_bgPlayer.state == PlayerState.playing) return;
+  static Future<void> playBackground([String fileName = 'background.mp3']) async {
+    if (!isMusicOn) return;
 
     try {
+      if (_bgPlayer.state == PlayerState.playing) {
+        await _bgPlayer.stop();
+      }
+
       await _bgPlayer.setReleaseMode(ReleaseMode.loop);
-      await _bgPlayer.play(AssetSource('audios/trinh.m4a'));
+      await _bgPlayer.setSource(AssetSource('audios/$fileName'));
       await _bgPlayer.setVolume(musicVolume);
+      await _bgPlayer.resume();
     } catch (e) {
-      print("Chưa có file nhạc nền: $e");
+      print("Lỗi phát nhạc nền ($fileName): $e");
     }
   }
 
@@ -35,7 +37,7 @@ class AudioManager {
   static Future<void> toggleMusic(bool isOn) async {
     isMusicOn = isOn;
     if (isOn) {
-      await playBackground();
+      await playBackground('background.mp3');
     } else {
       await stopBackground();
     }
@@ -51,12 +53,14 @@ class AudioManager {
     }
   }
 
-  // HIỆU ỨNG
+  // HIỆU ỨNG (Chạy 1 lần)
   static Future<void> playSFX(String fileName) async {
     try {
+      // Dừng sound cũ nếu đang chạy để tránh chồng chéo quá nhiều
       if (_sfxPlayer.state == PlayerState.playing) {
         await _sfxPlayer.stop();
       }
+
       await _sfxPlayer.play(AssetSource('audios/$fileName'));
       await _sfxPlayer.setVolume(1.0);
     } catch (e) {
