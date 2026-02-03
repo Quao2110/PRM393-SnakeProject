@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 
 import '../core/constants.dart';
 import '../core/player_data.dart';
+import '../core/audio_manager.dart';
 import '../models/bet_info.dart';
 import '../widgets/custom_button.dart';
 
@@ -111,8 +112,13 @@ class _ResultScreenState extends State<ResultScreen>
     _confettiController = ConfettiController(
       duration: const Duration(seconds: 2),
     );
+
+    // Logic âm thanh: Thắng thì Win, Thua thì Lose
     if (widget.isWin) {
       _confettiController.play();
+      AudioManager.playSFX('win.mp3');
+    } else {
+      AudioManager.playSFX('lose.mp3');
     }
   }
 
@@ -192,7 +198,6 @@ class _ResultScreenState extends State<ResultScreen>
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 const SizedBox(height: 4),
-                                // Hiển thị mã số hoặc tên tay đua chiến thắng
                                 Text(
                                   'Người thắng cuộc: ${widget.winnerId}',
                                   textAlign: TextAlign.center,
@@ -201,7 +206,6 @@ class _ResultScreenState extends State<ResultScreen>
                                   ),
                                 ),
                                 const SizedBox(height: 4),
-                                // Hiển thị thông tin cược của người chơi
                                 Text(
                                   'Lựa chọn: ${widget.betInfo.racer.name} - ${widget.betInfo.betAmount} xu',
                                   textAlign: TextAlign.center,
@@ -210,7 +214,6 @@ class _ResultScreenState extends State<ResultScreen>
                                   ),
                                 ),
                                 const SizedBox(height: 4),
-                                // Hiển thị số dư hiện tại sau ván đấu
                                 Text(
                                   'Số dư: ${PlayerData.totalMoney} xu',
                                   textAlign: TextAlign.center,
@@ -227,7 +230,6 @@ class _ResultScreenState extends State<ResultScreen>
                                     isBankrupt ? 'CHƠI LẠI TỪ ĐẦU' : 'TIẾP TỤC ĐUA',
                                     onPressed: () {
                                       if (isBankrupt) {
-                                        // Reset lời dữ liệu nếu hết tiền
                                         PlayerData.resetData();
                                       }
                                       _backToMenu();
@@ -250,7 +252,6 @@ class _ResultScreenState extends State<ResultScreen>
                           Positioned(
                             top: 95,
                             child: _RibbonBanner(
-                              // Chuyển biểu ngữ sang tiếng Việt
                               text: widget.isWin ? 'THẮNG RỒI NHA!' : 'THUA THÔI MÌNH LÀM LẠI !',
                               colors: bannerGradient,
                               fontSize: widget.isWin ? 22 : 20,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../core/audio_manager.dart';
 
 class GameButton extends StatelessWidget {
   final String text;
@@ -22,7 +23,12 @@ class GameButton extends StatelessWidget {
       width: width ?? double.infinity,
       height: 50,
       child: ElevatedButton(
-        onPressed: isEnabled ? onPressed : null,
+        onPressed: isEnabled
+            ? () {
+          AudioManager.playSFX('click.mp3');
+          onPressed();
+        }
+            : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           disabledBackgroundColor: Colors.grey.shade400,

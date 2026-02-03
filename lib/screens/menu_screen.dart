@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:snakeproject/screens/settings_dialog.dart';
 import '../core/audio_manager.dart';
 import '../core/constants.dart';
-import '../models/bet_info.dart';
 import '../widgets/custom_button.dart';
 
 class MenuScreen extends StatefulWidget {
@@ -16,7 +15,7 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   void initState() {
     super.initState();
-    AudioManager.playBackground();
+    AudioManager.playBackground('background.mp3');
   }
 
   @override
@@ -34,7 +33,6 @@ class _MenuScreenState extends State<MenuScreen> {
               ),
             ),
           ),
-
           Positioned(
             top: 40,
             right: 20,
@@ -48,10 +46,10 @@ class _MenuScreenState extends State<MenuScreen> {
                     color: Colors.yellow,
                   ),
                   onPressed: () {
+                    AudioManager.playSFX('click.mp3');
                     Navigator.pushNamed(context, '/intro');
                   },
                 ),
-
                 const SizedBox(width: 8),
                 IconButton(
                   icon: const Icon(
@@ -60,6 +58,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     color: Colors.yellow,
                   ),
                   onPressed: () {
+                    AudioManager.playSFX('click.mp3');
                     showDialog(
                       context: context,
                       builder: (_) => const SettingsDialog(),
@@ -69,7 +68,6 @@ class _MenuScreenState extends State<MenuScreen> {
               ],
             ),
           ),
-
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -100,48 +98,12 @@ class _MenuScreenState extends State<MenuScreen> {
                   child: GameButton(
                     text: "VÀO ĐUA NGAY",
                     onPressed: () {
-                      AudioManager.stopBackground();
                       Navigator.pushNamed(context, '/lobby').then((_) {
-                        AudioManager.playBackground();
+                        AudioManager.playBackground('background.mp3');
                       });
                     },
                   ),
                 ),
-
-                // const SizedBox(height: 20),
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 40),
-                //   child: GameButton(
-                //     text: "🏎️ TEST RACE",
-                //     color: Colors.purple,
-                //     onPressed: () {
-                //       AudioManager.stopBackground();
-                //       Navigator.pushNamed(
-                //         context,
-                //         '/race',
-                //         arguments: BetInfo.dummyBet,
-                //       ).then((_) {
-                //         AudioManager.playBackground();
-                //       });
-                //     },
-                //   ),
-                // ),
-                //
-
-                // //INTRO
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 40),
-                //   child: GameButton(
-                //     text: "HƯỚNG DẪN",
-                //     color: Colors.blueGrey,
-                //     onPressed: () {
-                //       AudioManager.stopBackground();
-                //       Navigator.pushNamed(context, '/intro').then((_) {
-                //         AudioManager.playBackground();
-                //       });
-                //     },
-                //   ),
-                // ),
               ],
             ),
           ),

@@ -34,6 +34,8 @@ class _RaceScreenState extends State<RaceScreen> with TickerProviderStateMixin {
     super.initState();
     racers = Racer.dummyRacers;
     racerPositions = List.filled(racers.length, 0.0);
+
+    AudioManager.stopBackground();
   }
 
   @override
@@ -55,6 +57,7 @@ class _RaceScreenState extends State<RaceScreen> with TickerProviderStateMixin {
   @override
   void dispose() {
     raceTimer?.cancel();
+    AudioManager.stopBackground();
     super.dispose();
   }
 
@@ -68,23 +71,20 @@ class _RaceScreenState extends State<RaceScreen> with TickerProviderStateMixin {
   }
 
   void _startCountdown() async {
-    for (int i = 3; i > 0; i--) {
-      if (!mounted) return;
-      setState(() {
-        countdown = i;
-        showCountdown = true;
-      });
-      AudioManager.playSFX('click.mp3');
-      await Future.delayed(const Duration(seconds: 1));
-    }
+    setState(() {
+      showCountdown = true;
+      countdown = 3;
+    });
+    await AudioManager.playSFXAndWait('start.mp3');
     if (!mounted) return;
     setState(() => showCountdown = false);
     _startRace();
   }
 
   void _startRace() {
+    AudioManager.playBackground('race.mp3');
+
     setState(() => isRacing = true);
-    AudioManager.playSFX('race_start.mp3');
 
     raceTimer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
       if (!mounted) {
@@ -96,7 +96,7 @@ class _RaceScreenState extends State<RaceScreen> with TickerProviderStateMixin {
       setState(() {
         for (int i = 0; i < racers.length; i++) {
           if (racerPositions[i] < 1.0) {
-            double baseSpeed = 0.008;
+            double baseSpeed = 0.003;
             double randomFactor = _random.nextDouble() * 0.015;
             racerPositions[i] += baseSpeed + randomFactor;
 
@@ -117,6 +117,8 @@ class _RaceScreenState extends State<RaceScreen> with TickerProviderStateMixin {
 
   void _finishRace() {
     raceTimer?.cancel();
+    AudioManager.stopBackground();
+
     setState(() {
       isRacing = false;
       raceFinished = true;
@@ -186,8 +188,11 @@ class _RaceScreenState extends State<RaceScreen> with TickerProviderStateMixin {
       child: Row(
         children: [
           IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20), // Giảm size icon
+            onPressed: () {
+              AudioManager.playSFX('click.mp3');
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20),
           ),
           const Spacer(),
           const Text(
@@ -196,7 +201,10 @@ class _RaceScreenState extends State<RaceScreen> with TickerProviderStateMixin {
           ),
           const Spacer(),
           IconButton(
-            onPressed: _restartRace,
+            onPressed: () {
+              AudioManager.playSFX('click.mp3');
+              _restartRace();
+            },
             icon: const Icon(Icons.refresh, color: Colors.white, size: 20),
           ),
         ],
@@ -204,7 +212,6 @@ class _RaceScreenState extends State<RaceScreen> with TickerProviderStateMixin {
     );
   }
 
-  // THU NHỎ KHUNG CHỮ CƯỢC
   Widget _buildBetInfo() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 2), // Giảm margin
@@ -232,7 +239,6 @@ class _RaceScreenState extends State<RaceScreen> with TickerProviderStateMixin {
     );
   }
 
-  // ĐƯỜNG ĐUA TO RA (Sử dụng LayoutBuilder)
   Widget _buildRaceTrack(double width, double laneHeight) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -277,12 +283,10 @@ class _RaceScreenState extends State<RaceScreen> with TickerProviderStateMixin {
 
   List<Widget> _buildRacers(double trackWidth, double laneHeight) {
     double usableWidth = trackWidth - 80;
-
     return List.generate(racers.length, (index) {
       final racer = racers[index];
       final position = racerPositions[index];
       final isBetCar = betInfo?.racer.id == racer.id;
-
       return AnimatedPositioned(
         duration: const Duration(milliseconds: 50),
         left: 20 + (usableWidth * position),
@@ -320,7 +324,6 @@ class _RaceScreenState extends State<RaceScreen> with TickerProviderStateMixin {
     );
   }
 
-  // THU NHỎ BẢNG XẾP HẠNG
   Widget _buildLeaderboard() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
@@ -349,6 +352,7 @@ class _RaceScreenState extends State<RaceScreen> with TickerProviderStateMixin {
 
   void _restartRace() {
     raceTimer?.cancel();
+    AudioManager.stopBackground();
     setState(() {
       racerPositions = List.filled(racers.length, 0.0);
       isRacing = false;
